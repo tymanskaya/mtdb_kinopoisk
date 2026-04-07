@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 70px;
+    background-color: #f0f9ff;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;          /* ← добавить */
+    box-sizing: border-box; /* ← добавить */
+}
+
+.logo img {
+    height: 40px;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list li:not(:last-child)::after {
+    content: '|';
+    color: #ccc;
+    margin-left: 4px;
+}
+
+.link {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding: 4px 8px;
+}
+
+.link:hover {
+    color: #01b4e4;
+}
+
+.activeLink {
+    color: #01b4e4;
+    font-weight: 600;
+}
+
+.themeBtn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.themeBtn:hover {
+    background-color: #e0e0e0;
+}

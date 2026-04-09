@@ -4,7 +4,6 @@
     justify-content: space-between;
     padding: 0 40px;
     height: 70px;
-    background-color: #f0f9ff;
     border-bottom: 1px solid #e0e0e0;
     width: 100%;          /* ← добавить */
     box-sizing: border-box; /* ← добавить */

@@ -1,6 +1,10 @@
+import {MovieCard} from "@/features/movieCard/ui/MovieCard.tsx";
+
+
 export const MainPage = () => {
-    return(
-        <div> MAIN PAGE</div>
+    return (
+        <MovieCard/>
+
     )
 }
 

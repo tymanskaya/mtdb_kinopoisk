@@ -32,6 +32,10 @@ export const movieCardApi = createApi({
         fetchPopularMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/popular`, params: { page } }),
         }),
+        fetchSimilarMovies: build.query<PopularMoviesResponse, { movie_id: string }>({
+            query: ({ movie_id }) => ({ url: `movie/${movie_id}/similar` }),
+        }),
+
     }),
 })
-export const { useFetchCardQuery, useFetchMovieCreditsQuery, useFetchPopularMoviesQuery } = movieCardApi
+export const { useFetchCardQuery, useFetchMovieCreditsQuery, useFetchPopularMoviesQuery, useFetchSimilarMoviesQuery } = movieCardApi

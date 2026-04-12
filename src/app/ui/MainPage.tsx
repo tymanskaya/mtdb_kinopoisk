@@ -1,29 +1,35 @@
 
 import {useFetchPopularMoviesQuery} from "@/features/movieCard/api/movieCardApi.ts";
 import {useNavigate} from "react-router";
-import {Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
 import {Path} from "@/common/routing";
 
 
 export const MainPage = () => {
-    const { data, isLoading, isError } = useFetchPopularMoviesQuery({ page: 1 })
-    const navigate = useNavigate()
+    const { data, isLoading, isError } = useFetchPopularMoviesQuery({ page: 1 });
+    const navigate = useNavigate();
 
-    if (isLoading) return <div>Загрузка...</div>
-    if (isError) return <div>Ошибка загрузки</div>
+    if (isLoading) return <div>Загрузка...</div>;
+    if (isError) return <div>Ошибка загрузки</div>;
 
     return (
         <Container sx={{ py: 4 }}>
+            {/* Заголовок по заданию */}
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+                Popular Movies
+            </Typography>
+
             <Grid container spacing={3}>
-                {data?.results.map(movie => (
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={movie.id}>
+                {/* Ограничиваем до 6 карточек через .slice(0, 6) */}
+                {data?.results.slice(0, 6).map(movie => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={movie.id}>
                         <Card
                             sx={{ cursor: 'pointer', height: '100%' }}
                             onClick={() => navigate(Path.Movie.replace(':id', movie.id.toString()))}
                         >
                             <CardMedia
                                 component="img"
-                                height="300"
+                                height="400"
                                 image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 alt={movie.title}
                             />
@@ -37,7 +43,19 @@ export const MainPage = () => {
                     </Grid>
                 ))}
             </Grid>
+
+            {/* Кнопка View More для перехода к Category Movies */}
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={() => navigate('/movies/popular')} // Путь к полной категории
+                    sx={{ textTransform: 'none', px: 4 }}
+                >
+                    View More
+                </Button>
+            </Box>
         </Container>
-    )
-}
+    );
+};
 

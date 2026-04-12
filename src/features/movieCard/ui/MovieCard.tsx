@@ -3,6 +3,7 @@ import { useFetchCardQuery } from "@/features/movieCard/api/movieCardApi.ts"
 import { MovieInfo } from "@/features/movieCard/ui/MovieInfo"
 import { MovieCast } from "@/features/movieCard/ui/MovieCast"
 import { Container } from "@mui/material"
+import {SimilarMovies} from "@/features/movieCard/ui/SimilarMovies";
 
 export const MovieCard = () => {
     const { id } = useParams<{ id: string }>()
@@ -20,6 +21,7 @@ export const MovieCard = () => {
         <Container>
             <MovieInfo movie={data} />
             <MovieCast movieId={data.id.toString()} />
+            <SimilarMovies/>
         </Container>
     )
 }

@@ -1,6 +1,10 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type {MovieDetails} from "@/features/movieCard/api/movieCardApi.types.ts";
+import type {
+    CreditsResponse,
+    MovieDetails,
+    PopularMoviesResponse
+} from "@/features/movieCard/api/movieCardApi.types.ts";
 
 export const movieCardApi = createApi({
 
@@ -22,6 +26,12 @@ export const movieCardApi = createApi({
                 }
             },
         }),
+        fetchMovieCredits: build.query<CreditsResponse, { movie_id: string }>({
+            query: ({ movie_id }) => ({ url: `movie/${movie_id}/credits` }),
+        }),
+        fetchPopularMovies: build.query<PopularMoviesResponse, { page?: number }>({
+            query: ({ page = 1 }) => ({ url: `movie/popular`, params: { page } }),
+        }),
     }),
 })
-export const { useFetchCardQuery } = movieCardApi
+export const { useFetchCardQuery, useFetchMovieCreditsQuery, useFetchPopularMoviesQuery } = movieCardApi

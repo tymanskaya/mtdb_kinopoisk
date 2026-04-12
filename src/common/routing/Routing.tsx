@@ -1,8 +1,10 @@
 import {Route, Routes} from "react-router";
 import {MainPage} from "@/app/ui/MainPage.tsx";
+import {MovieCard} from "@/features/movieCard/ui/MovieCard.tsx";
 
 export const Path = {
     Main: '/',
+    Movie: '/movie/:id',
     // Playlists: '/playlists',
     // Tracks: '/tracks',
     // Profile: '/profile',
@@ -13,6 +15,7 @@ export const Path = {
 export const Routing = () => (
     <Routes>
         <Route path={Path.Main} element={<MainPage />} />
+        <Route path={Path.Movie} element={<MovieCard />} />
         {/*<Route path={Path.Playlists} element={<PlaylistsPage />} />*/}
         {/*<Route path={Path.Tracks} element={<TracksPage />} />*/}
         {/*<Route path={Path.Profile} element={<ProfilePage />} />*/}

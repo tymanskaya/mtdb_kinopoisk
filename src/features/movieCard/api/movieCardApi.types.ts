@@ -66,3 +66,32 @@ export type MoviesResponse = {
     total_pages: number
     total_results: number
 }
+
+//актеры
+export type CastMember = {
+    id: number
+    name: string
+    character: string
+    profile_path: string | null
+}
+
+export type CreditsResponse = {
+    id: number
+    cast: CastMember[]
+}
+
+export type Movie = {
+    id: number
+    title: string
+    poster_path: string
+    overview: string
+    vote_average: number
+    release_date: string
+}
+
+export type PopularMoviesResponse = {
+    page: number
+    results: Movie[]
+    total_pages: number
+    total_results: number
+}

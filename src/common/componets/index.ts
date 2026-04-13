@@ -1,0 +1,1 @@
+export {MovieCardItem} from '../componets/MovieCardItem/MovieCardItem.tsx'

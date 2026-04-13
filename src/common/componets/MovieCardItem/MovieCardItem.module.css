@@ -1,0 +1,83 @@
+.card {
+    cursor: pointer;
+    height: 100%;
+    position: relative;
+    transform: translateY(0) scale(1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.posterWrapper {
+    position: relative;
+}
+
+.poster {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.rating {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: #ed6c02;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.favoriteBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.card:hover .favoriteBtn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.favoriteBtn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.favoriteBtn.active {
+    color: #d32f2f;
+}
+
+.content {
+    padding: 12px;
+}
+
+.title {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

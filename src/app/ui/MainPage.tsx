@@ -1,8 +1,8 @@
 
 import {useFetchPopularMoviesQuery} from "@/features/movieCard/api/movieCardApi.ts";
 import {useNavigate} from "react-router";
-import {Box, Button, Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
-import {Path} from "@/common/routing";
+import {Box, Button,Container, Grid, Typography} from "@mui/material";
+import {MovieCardItem} from "@/common/componets";
 
 
 export const MainPage = () => {
@@ -23,23 +23,7 @@ export const MainPage = () => {
                 {/* Ограничиваем до 6 карточек через .slice(0, 6) */}
                 {data?.results.slice(0, 6).map(movie => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={movie.id}>
-                        <Card
-                            sx={{ cursor: 'pointer', height: '100%' }}
-                            onClick={() => navigate(Path.Movie.replace(':id', movie.id.toString()))}
-                        >
-                            <CardMedia
-                                component="img"
-                                height="400"
-                                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                alt={movie.title}
-                            />
-                            <CardContent>
-                                <Typography variant="h6" noWrap>{movie.title}</Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    ⭐ {movie.vote_average.toFixed(1)}
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        <MovieCardItem movie={movie}/>
                     </Grid>
                 ))}
             </Grid>

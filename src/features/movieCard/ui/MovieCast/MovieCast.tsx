@@ -1,6 +1,6 @@
-import { Avatar, Box, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import styles from './MovieCast.module.css'
-import {useMovieCredits} from "@/common/hooks";
+import { useMovieCredits } from "@/common/hooks"
 
 type Props = { movieId: string }
 
@@ -18,19 +18,20 @@ export const MovieCast = ({ movieId }: Props) => {
             <Box className={styles.list}>
                 {cast.map(actor => (
                     <Box key={actor.id} className={styles.actor}>
-                        <Avatar
+                        <img
                             src={actor.profile_path
                                 ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
-                                : `https://placehold.co/80x80?text=No+Photo`}
+                                : `https://placehold.co/150x150?text=No+Photo`}
                             alt={actor.name}
-                            className={styles.avatar}
+                            style={{
+                                width: 150,
+                                height: 150,
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                            }}
                         />
-                        <Typography variant="body2" fontWeight={600} align="center">
-                            {actor.name}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" align="center">
-                            {actor.character || 'Unknown role'}
-                        </Typography>
+                        <p className={styles.name}>{actor.name}</p>
+                        <p className={styles.character}>{actor.character || 'Unknown role'}</p>
                     </Box>
                 ))}
             </Box>

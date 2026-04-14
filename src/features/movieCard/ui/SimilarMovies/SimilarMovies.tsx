@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { Grid, Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import { useFetchSimilarMoviesQuery } from '@/features/movieCard/api/movieCardApi';
-import {Path} from "@/common/routing"; // проверьте путь
+import {MovieCardItem} from "@/common/componets"; // проверьте путь
 
 
 export const SimilarMovies = () => {
@@ -22,21 +22,8 @@ export const SimilarMovies = () => {
 
             <Grid container spacing={2}>
                 {data?.results.slice(0, 6).map((movie) => (
-                    <Grid item xs={12} sm={4} md={3} lg={2} key={movie.id}>
-                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <CardMedia
-                                component="img"
-                                height="240"
-                                image={movie.poster_path ? `https://tmdb.org{movie.poster_path}` : 'https://placeholder.com'}
-                                alt={movie.title}
-                            />
-                            <CardContent sx={{ flexGrow: 1 }}>
-                                <Typography variant="body2" sx={{ fontWeight: 'bold', height: '3em', overflow: 'hidden' }}>
-                                    {movie.title}
-                                </Typography>
-                                <Typography variant="caption">⭐ {movie.vote_average.toFixed(1)}</Typography>
-                            </CardContent>
-                        </Card>
+                    <Grid size={{ xs: 6, sm: 4, md: 2 }} key={movie.id}>
+                        <MovieCardItem movie={movie}/>
                     </Grid>
                 ))}
             </Grid>

@@ -13,6 +13,7 @@ export const MovieCard = () => {
         { skip: !id }
     )
 
+
     if (isLoading) return <div>Загрузка...</div>
     if (isError) return <div>Ошибка загрузки</div>
     if (!data) return null

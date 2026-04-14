@@ -35,7 +35,30 @@ export const movieCardApi = createApi({
         fetchSimilarMovies: build.query<PopularMoviesResponse, { movie_id: string }>({
             query: ({ movie_id }) => ({ url: `movie/${movie_id}/similar` }),
         }),
+        fetchTopRatedMovies: build.query<PopularMoviesResponse, { page?: number }>({
+            query: ({ page = 1 }) => ({ url: `movie/top_rated`, params: { page } }),
+        }),
+        fetchUpcomingMovies: build.query<PopularMoviesResponse, { page?: number }>({
+            query: ({ page = 1 }) => ({ url: `movie/upcoming`, params: { page } }),
+        }),
+        fetchNowPlayingMovies: build.query<PopularMoviesResponse, { page?: number }>({
+            query: ({ page = 1 }) => ({ url: `movie/now_playing`, params: { page } }),
+        }),
+        searchMovies: build.query<PopularMoviesResponse, { query: string; page?: number }>({
+            query: ({ query, page = 1 }) => ({
+                url: `search/movie`,
+                params: { query, page, include_adult: false, language: 'en-US' }
+            }),
+        }),
 
     }),
 })
-export const { useFetchCardQuery, useFetchMovieCreditsQuery, useFetchPopularMoviesQuery, useFetchSimilarMoviesQuery } = movieCardApi
+export const {
+    useFetchCardQuery,
+    useFetchMovieCreditsQuery,
+    useFetchPopularMoviesQuery,
+    useFetchSimilarMoviesQuery,
+    useSearchMoviesQuery,
+    useFetchTopRatedMoviesQuery,
+    useFetchUpcomingMoviesQuery,
+    useFetchNowPlayingMoviesQuery,} = movieCardApi

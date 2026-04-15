@@ -1,8 +1,7 @@
-
-import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import type {Movie} from "@/features/movieCard/api";
 import styles from './WelcomeSection.module.css'
+import {SearchBar} from "@/common/componets";
 
 type Props = {
     movies: Movie[]
@@ -16,17 +15,9 @@ function getRandomBackdrop(movies: Movie[]): string | null {
 }
 
 export const WelcomeSection = ({ movies }: Props) => {
-    const navigate = useNavigate()
-    const [query, setQuery] = useState("")
+
     const [backdrop] = useState<string | null>(() => getRandomBackdrop(movies))
 
-    const handleSearch = () => {
-        if (query.trim()) navigate(`/search?query=${encodeURIComponent(query.trim())}`)
-    }
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') handleSearch()
-    }
 
     return (
         <div
@@ -41,23 +32,7 @@ export const WelcomeSection = ({ movies }: Props) => {
             <div className={styles.content}>
                 <h1 className={styles.title}>Millions of movies to discover</h1>
                 <p className={styles.subtitle}>Explore now. Find your next favourite.</p>
-                <div className={styles.searchBar}>
-                    <input
-                        className={styles.input}
-                        type="text"
-                        placeholder="Search for a movie..."
-                        value={query}
-                        onChange={e => setQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
-                    <button
-                        className={styles.button}
-                        onClick={handleSearch}
-                        disabled={!query.trim()}
-                    >
-                        Search
-                    </button>
-                </div>
+                <SearchBar/>
             </div>
         </div>
     )

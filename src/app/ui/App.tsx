@@ -6,7 +6,6 @@ import { selectThemeMode } from "@/app/app-slice.ts"
 import {darkTheme, lightTheme} from "@/common/theme/theme.ts";
 import styles from "./App.module.css"
 import {Routing} from "@/common/routing";
-import {Footer} from "@/common/componets";
 
 export const App = () => {
     const themeMode = useAppSelector(selectThemeMode)
@@ -18,7 +17,6 @@ export const App = () => {
                 <Header />
 
                     <Routing />
-                {/*<Footer />*/}
             </div>
 
         </ThemeProvider>

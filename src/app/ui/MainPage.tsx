@@ -19,7 +19,7 @@ export const MainPage = () => {
     return (
         <>
             <WelcomeSection movies={popular?.results ?? []} />
-            <Container maxWidth="xl" sx={{ py: 4 }}>
+            <Container maxWidth="lg" sx={{ py: 4 }}>
                 <MovieSection title="Popular Movies" movies={popular?.results ?? []} viewMorePath="/category/popular" />
                 <MovieSection title="Top Rated Movies" movies={topRated?.results ?? []} viewMorePath="/category/top-rated" />
                 <MovieSection title="Upcoming Movies" movies={upcoming?.results ?? []} viewMorePath="/category/upcoming" />

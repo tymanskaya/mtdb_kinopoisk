@@ -1,17 +1,17 @@
-import {useNavigate} from "react-router";
-import type {Movie} from "@/features/movieCard/api";
-import {Path} from "@/common/routing";
+import { useNavigate } from "react-router"
+import type { Movie } from "@/features/movieCard/api"
+import { Path } from "@/common/routing"
 import styles from './MovieCardItem.module.css'
-import { useState } from "react";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import { toggleFavorite, selectIsFavorite } from "@/features/movieCard/ui/FavoritesPage/favoritesSlice"
 
-type Props = {
-    movie: Movie
-}
+type Props = { movie: Movie }
 
 export const MovieCardItem = ({ movie }: Props) => {
     const navigate = useNavigate()
-    const [isFavorite, setIsFavorite] = useState(false)
+    const dispatch = useAppDispatch()
+    const isFavorite = useAppSelector(selectIsFavorite(movie.id))
 
     return (
         <div
@@ -33,7 +33,12 @@ export const MovieCardItem = ({ movie }: Props) => {
                     className={`${styles.favoriteBtn} ${isFavorite ? styles.active : ''}`}
                     onClick={(e) => {
                         e.stopPropagation()
-                        setIsFavorite(prev => !prev)
+                        dispatch(toggleFavorite({
+                            id: movie.id,
+                            title: movie.title,
+                            posterUrl: movie.poster_path,
+                            voteAverage: movie.vote_average,
+                        }))
                     }}
                 >
                     {isFavorite ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}

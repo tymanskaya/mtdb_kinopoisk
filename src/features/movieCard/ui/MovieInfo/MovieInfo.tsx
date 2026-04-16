@@ -22,7 +22,7 @@ export const MovieInfo=({ movie }: Props)=>{
 
             {/* Информация */}
             <Box className={styles.info}>
-                <Typography variant="h4" fontWeight={700}>
+                    <Typography variant="h4" sx={{ fontWeight: 700}}>
                     {movie.title}
                 </Typography>
 
@@ -48,7 +48,7 @@ export const MovieInfo=({ movie }: Props)=>{
 
                 {/* Жанры */}
                 <Box>
-                    <Typography variant="subtitle1" fontWeight={600} mb={1}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                         Genres
                     </Typography>
                     <Box className={styles.genres}>

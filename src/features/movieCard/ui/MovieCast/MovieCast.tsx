@@ -11,7 +11,7 @@ export const MovieCast = ({ movieId }: Props) => {
 
     return (
         <Box className={styles.container}>
-            <Typography variant="h6" fontWeight={700} mb={2}>
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
                 Cast
             </Typography>
 

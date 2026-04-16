@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import { Grid, Typography, Box } from '@mui/material';
 import { useFetchSimilarMoviesQuery } from '@/features/movieCard/api/movieCardApi';
 import {MovieCardItem} from "@/common/componets"; // проверьте путь
@@ -6,7 +6,6 @@ import {MovieCardItem} from "@/common/componets"; // проверьте путь
 
 export const SimilarMovies = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
 
     // Вызываем созданный нами ранее эндпоинт
     const { data, isLoading, isError } = useFetchSimilarMoviesQuery({ movie_id: id || '' });

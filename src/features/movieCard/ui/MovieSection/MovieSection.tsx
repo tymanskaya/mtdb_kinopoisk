@@ -15,7 +15,8 @@ export const MovieSection = ({ title, movies, viewMorePath }: Props) => {
     return (
         <Box sx={{ mb: 5 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h5" fontWeight={700}>{title}</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 700}}>{title}</Typography>
+
                 {viewMorePath && (
                     <Button variant="outlined" size="small" onClick={() => navigate(viewMorePath)}>
                         View more

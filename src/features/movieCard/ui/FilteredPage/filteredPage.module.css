@@ -1,0 +1,17 @@
+.layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 24px;
+}
+
+.results {
+    flex: 1;
+    min-width: 0;
+}

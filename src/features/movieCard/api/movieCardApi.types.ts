@@ -96,3 +96,14 @@ export type PopularMoviesResponse = {
     total_pages: number
     total_results: number
 }
+
+export type DiscoverParams = {
+    sort_by?: string
+    'vote_average.gte'?: number
+    'vote_average.lte'?: number
+    'vote_count.gte'?: number
+    with_genres?: string
+    page?: number
+    include_adult?: boolean
+    language?: string
+}

@@ -1,7 +1,7 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type {
-    CreditsResponse,
+    CreditsResponse, DiscoverParams, Genre,
     MovieDetails,
     PopularMoviesResponse
 } from "@/features/movieCard/api/movieCardApi.types.ts";
@@ -50,6 +50,19 @@ export const movieCardApi = createApi({
                 params: { query, page, include_adult: false, language: 'en-US' }
             }),
         }),
+        fetchDiscoverMovies: build.query<PopularMoviesResponse, DiscoverParams>({
+            query: (params) => ({
+                url: 'discover/movie',
+                params: {
+                    include_adult: false,
+                    language: 'en-US',
+                    ...params,
+                }
+            }),
+        }),
+        fetchGenres: build.query<{ genres: Genre[] }, void>({
+            query: () => ({ url: 'genre/movie/list', params: { language: 'en-US' } }),
+        }),
 
     }),
 })
@@ -61,4 +74,6 @@ export const {
     useSearchMoviesQuery,
     useFetchTopRatedMoviesQuery,
     useFetchUpcomingMoviesQuery,
-    useFetchNowPlayingMoviesQuery,} = movieCardApi
+    useFetchNowPlayingMoviesQuery,
+useFetchDiscoverMoviesQuery,
+useFetchGenresQuery} = movieCardApi

@@ -4,10 +4,9 @@ import {
     Slider, Pagination, CircularProgress, Grid, Box, Button, Chip
 } from '@mui/material'
 import { useFetchGenresQuery, useFetchDiscoverMoviesQuery } from '@/features/movieCard/api/movieCardApi'
-
-import styles from './FilteredPage.module.css'
+import { useDebounce } from '@/common/hooks/useDebounce'
+import styles from './filteredPage.module.css'
 import {MovieCardItem} from "@/common/componets";
-import {useDebounce} from "@/common/hooks";
 
 const SORT_OPTIONS = [
     { value: 'popularity.desc', label: 'Popularity ↓' },
@@ -18,8 +17,6 @@ const SORT_OPTIONS = [
     { value: 'primary_release_date.asc', label: 'Release Date ↑' },
     { value: 'title.asc', label: 'Title A–Z' },
     { value: 'title.desc', label: 'Title Z–A' },
-    { value: 'revenue.desc', label: 'Revenue ↓' },
-    { value: 'vote_count.desc', label: 'Most Voted' },
 ]
 
 const DEFAULT_SORT = 'popularity.desc'
@@ -60,16 +57,15 @@ export const FilteredPage = () => {
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>Filtered Movies</Typography>
             <div className={styles.layout}>
-
-                {/* Sidebar */}
                 <aside className={styles.sidebar}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Sort by</Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>
+                        Filters / Sort
+                    </Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>Sort by</Typography>
                     <Select
-                        fullWidth
-                        size="small"
-                        value={sortBy}
+                        fullWidth size="small" value={sortBy}
                         onChange={e => { setSortBy(e.target.value); setPage(1) }}
                         sx={{ mb: 3 }}
                     >
@@ -78,8 +74,8 @@ export const FilteredPage = () => {
                         ))}
                     </Select>
 
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>>
-                        Rating: {debouncedRating[0].toFixed(1)} – {debouncedRating[1].toFixed(1)}
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                        Rating {debouncedRating[0].toFixed(1)} - {debouncedRating[1].toFixed(1)}
                     </Typography>
                     <Slider
                         value={rating}
@@ -89,32 +85,23 @@ export const FilteredPage = () => {
                         sx={{ mb: 3 }}
                     />
 
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>>Genres</Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 3 }}>
                         {genresData?.genres.map(genre => (
                             <Chip
-                                key={genre.id}
-                                label={genre.name}
+                                key={genre.id} label={genre.name}
                                 onClick={() => toggleGenre(genre.id)}
                                 color={selectedGenres.includes(genre.id) ? 'primary' : 'default'}
                                 variant={selectedGenres.includes(genre.id) ? 'filled' : 'outlined'}
-                                size="small"
-                                sx={{ cursor: 'pointer' }}
+                                size="small" sx={{ cursor: 'pointer' }}
                             />
                         ))}
                     </Box>
 
-                    <Button
-                        variant="outlined"
-                        color="error"
-                        fullWidth
-                        onClick={handleReset}
-                    >
+                    <Button variant="contained" color="primary" fullWidth onClick={handleReset}>
                         Reset filters
                     </Button>
                 </aside>
 
-                {/* Results */}
                 <div className={styles.results}>
                     {(isLoading || isFetching) && (
                         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
@@ -123,13 +110,13 @@ export const FilteredPage = () => {
                     )}
 
                     {!isLoading && !isFetching && data?.results.length === 0 && (
-                        <Typography color="text.secondary">No movies found for selected filters 😔</Typography>
+                        <Typography color="text.secondary">No movies found 😔</Typography>
                     )}
 
                     {!isLoading && (
                         <Grid container spacing={2}>
                             {data?.results.map(movie => (
-                                <Grid size={{ xs: 6, sm: 4, md: 3 }} key={movie.id}>
+                                <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
                                     <MovieCardItem movie={movie} />
                                 </Grid>
                             ))}

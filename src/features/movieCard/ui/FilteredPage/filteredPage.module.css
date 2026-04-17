@@ -5,10 +5,13 @@
 }
 
 .sidebar {
-    width: 260px;
+    width: 280px;
     flex-shrink: 0;
     position: sticky;
     top: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    padding: 24px;
 }
 
 .results {

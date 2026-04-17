@@ -4,6 +4,7 @@ import {MovieCard} from "@/features/movieCard/ui/MovieCard.tsx";
 import {SearchPage} from "@/features/movieCard/ui/SearchPage/SearchPage.tsx";
 import {FavoritesPage} from "@/features/movieCard/ui/FavoritesPage/FavoritesPage.tsx";
 import {FilteredPage} from "@/features/movieCard/ui/FilteredPage";
+import {CategoryPage} from "@/features/movieCard/ui/CategoryPage";
 
 export const Path = {
     Main: '/',
@@ -11,7 +12,7 @@ export const Path = {
     Search: '/search',
     Favorites: '/favorites',
     Filtered: '/filtered',
-    // Profile: '/profile',
+    Category: '/category/:category',
     // OAuthRedirect: '/oauth/callback',
     // NotFound: '*',
 } as const
@@ -23,7 +24,7 @@ export const Routing = () => (
         <Route path={Path.Search} element={<SearchPage />} />
         <Route path={Path.Favorites} element={<FavoritesPage />} />
         <Route path={Path.Filtered} element={<FilteredPage />} />
-        {/*<Route path={Path.OAuthRedirect} element={<OAuthCallback />} />*/}
-        {/*<Route path={Path.NotFound} element={<PageNotFound />} />*/}
+        <Route path={Path.Category} element={<CategoryPage />} />
+        <Route path="/category/:category?" element={<CategoryPage />} />
     </Routes>
 )

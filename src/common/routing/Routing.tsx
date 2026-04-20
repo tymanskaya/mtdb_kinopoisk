@@ -5,6 +5,7 @@ import {SearchPage} from "@/features/movieCard/ui/SearchPage/SearchPage.tsx";
 import {FavoritesPage} from "@/features/movieCard/ui/FavoritesPage/FavoritesPage.tsx";
 import {FilteredPage} from "@/features/movieCard/ui/FilteredPage";
 import {CategoryPage} from "@/features/movieCard/ui/CategoryPage";
+import {NotFoundPage} from "@/common/componets";
 
 export const Path = {
     Main: '/',
@@ -26,5 +27,6 @@ export const Routing = () => (
         <Route path={Path.Filtered} element={<FilteredPage />} />
         <Route path={Path.Category} element={<CategoryPage />} />
         <Route path="/category/:category?" element={<CategoryPage />} />
+        <Route path="*" element={<NotFoundPage />} />  {/* ← последним */}
     </Routes>
 )

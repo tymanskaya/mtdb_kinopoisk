@@ -1,31 +1,45 @@
 .footer {
+    margin-top: auto;
+
+
+    padding: 20px 24px;
+}
+
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
-    background-color: #0d0d0d;
-    color: #888;
-    font-size: 0.85rem;
-    flex-shrink: 0;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.copy { margin: 0; }
+.copy {
+    font-size: 0.875rem;
+}
 
 .link {
-    color: #01b4e4;
+    color: #01b4e4; /* оставить */
     text-decoration: none;
 }
-.link:hover { text-decoration: underline; }
+
+.link:hover {
+    text-decoration: underline;
+}
 
 .socials {
     display: flex;
-    gap: 16px;
+    gap: 12px;
 }
 
 .icon {
-    color: #888;
-    transition: color 0.2s ease;
+    color: inherit; /* ← наследует от родителя Box */
     display: flex;
     align-items: center;
+    transition: color 0.2s ease;
 }
-.icon:hover { color: #01b4e4; }
+
+.icon:hover {
+    color: #01b4e4;
+}

@@ -2,12 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {notifyService} from "@/common/util/notifications/notifyService.ts";
 
 
-const isErrorWithMessage = (data: unknown): data is { message: string } =>
-    typeof data === 'object' &&
-    data !== null &&
-    'message' in data &&
-    typeof (data as Record<string, unknown>).message === 'string'
-
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     tagTypes: ['Movie', 'Auth'],
@@ -23,24 +17,61 @@ export const baseApi = createApi({
         })(args, api, extraOptions)
 
         if (result.error) {
-            switch (result.error.status) {
-                case 404:
+            console.warn('[API Error]', result.error)
+            const { status } = result.error
+
+            // 1. Ошибка сети (нет интернета, CORS, сервер недоступен)
+            if (status === 'FETCH_ERROR') {
+                notifyService.emit(
+                    'Network error. Please check your internet connection.',
+                    'error'
+                )
+                return result
+            }
+
+            // 2. Ошибка парсинга ответа
+            if (status === 'PARSING_ERROR') {
+                notifyService.emit('Failed to parse server response.', 'error')
+                return result
+            }
+
+            // 3. HTTP ошибки
+            switch (status) {
+                case 401:
                     notifyService.emit(
-                        (result.error.data as { error: string }).error ?? 'Not found',
+                        'Unauthorized. Invalid or expired API token.',
                         'error'
                     )
                     break
 
+                case 404:
+                    notifyService.emit(
+                        `Not found: ${typeof args === 'object' && 'url' in args ? args.url : 'unknown endpoint'}`,
+                        'warning'
+                    )
+                    break
+
                 case 429:
-                    if (isErrorWithMessage(result.error.data)) {
-                        notifyService.emit(result.error.data.message, 'warning')
-                    } else {
-                        notifyService.emit('Too many requests', 'warning')
-                    }
+                    notifyService.emit(
+                        'Too many requests. Please slow down.',
+                        'warning'
+                    )
+                    break
+
+                case 500:
+                case 502:
+                case 503:
+                    notifyService.emit(
+                        'Server error. Please try again later.',
+                        'error'
+                    )
                     break
 
                 default:
-                    notifyService.emit('Some error occurred', 'error')
+                    notifyService.emit(
+                        `Unexpected error (${status}). Please try again.`,
+                        'error'
+                    )
             }
         }
 

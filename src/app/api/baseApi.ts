@@ -1,22 +1,50 @@
-// import { createApi} from '@reduxjs/toolkit/query/react'
-//
-//
-// export const baseApi = createApi({
-//     reducerPath: 'baseApi',
-//     keepUnusedDataFor: 60,
-//     //управление временем удалением из кэша, можно для определенного эдпоинда делать
-//     tagTypes: ['Playlist', 'Auth'],
-//     refetchOnFocus: false,
-//     //Возвращение во вкладку: Если пользователь переключился на другую вкладку или приложение,
-//     // а затем вернулся, система автоматически проверит, не устарели ли данные, и обновит их в фоновом режиме.
-//     // Синхронизация состояния: Если данные на сервере могли измениться за время отсутствия
-//     // пользователя (например, курс валют, список сообщений или статус заказа),
-//     // фоновое обновление подтянет свежую информацию.
-//     // Улучшение UX: Создает ощущение «живого» приложения,
-//     // где информация всегда актуальна без лишних кликов на кнопку «Обновить».
-//     refetchOnReconnect: false,
-//     //когда прервалось интернет-соединение, а мы что-то изменяли, данные автоматом обновятся
-//     baseQuery:baseQueryWithReauth,
-//     // skipSchemaValidation: process.env.NODE_ENV === 'production',
-//     endpoints: () => ({}),
-// })
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {notifyService} from "@/common/util/notifications/notifyService.ts";
+
+
+const isErrorWithMessage = (data: unknown): data is { message: string } =>
+    typeof data === 'object' &&
+    data !== null &&
+    'message' in data &&
+    typeof (data as Record<string, unknown>).message === 'string'
+
+export const baseApi = createApi({
+    reducerPath: 'baseApi',
+    tagTypes: ['Movie', 'Auth'],
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    baseQuery: async (args, api, extraOptions) => {
+        const result = await fetchBaseQuery({
+            baseUrl: import.meta.env.VITE_BASE_URL,
+            prepareHeaders: headers => {
+                headers.set('Authorization', `Bearer ${import.meta.env.VITE_API_KEY}`)
+                return headers
+            },
+        })(args, api, extraOptions)
+
+        if (result.error) {
+            switch (result.error.status) {
+                case 404:
+                    notifyService.emit(
+                        (result.error.data as { error: string }).error ?? 'Not found',
+                        'error'
+                    )
+                    break
+
+                case 429:
+                    if (isErrorWithMessage(result.error.data)) {
+                        notifyService.emit(result.error.data.message, 'warning')
+                    } else {
+                        notifyService.emit('Too many requests', 'warning')
+                    }
+                    break
+
+                default:
+                    notifyService.emit('Some error occurred', 'error')
+            }
+        }
+
+        return result
+    },
+    endpoints: () => ({}),
+})

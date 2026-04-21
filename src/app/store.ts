@@ -1,18 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { appReducer, appSlice } from "./app-slice.ts"
-import {movieCardApi} from "@/features/movieCard/api";
 import {favoritesSlice} from "@/features/movieCard/ui/FavoritesPage/favoritesSlice.ts";
+import {baseApi} from "@/app/api/baseApi.ts";
 
 
 export const store = configureStore({
     reducer: {
         [appSlice.name]: appReducer,
-        [movieCardApi.reducerPath]:movieCardApi.reducer,
-        [favoritesSlice.name]:favoritesSlice.reducer
+        [baseApi.reducerPath]: baseApi.reducer,
+        [favoritesSlice.name]: favoritesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(movieCardApi.middleware),  // ← вот это не хватало
+        getDefaultMiddleware().concat(baseApi.middleware),
 })
 
 setupListeners(store.dispatch)

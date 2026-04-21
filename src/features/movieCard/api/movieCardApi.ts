@@ -1,30 +1,15 @@
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type {
     CreditsResponse, DiscoverParams, Genre,
     MovieDetails,
     PopularMoviesResponse
 } from "@/features/movieCard/api/movieCardApi.types.ts";
+import {baseApi} from "@/app/api/baseApi.ts";
 
-export const movieCardApi = createApi({
-
-    reducerPath: 'cardApi',
-
-    baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BASE_URL,
-        prepareHeaders: (headers) => {
-            headers.set('Authorization', `Bearer ${import.meta.env.VITE_API_KEY}`)
-            return headers
-        },
-    }),
+export const movieCardApi = baseApi.injectEndpoints({
     endpoints: build => ({
-        fetchCard: build.query<MovieDetails, {movie_id: string}>({
-            query: ({movie_id}) => {
-                return {
-                    method: 'get',
-                    url: `movie/${movie_id}`,
-                }
-            },
+        fetchCard: build.query<MovieDetails, { movie_id: string }>({
+            query: ({ movie_id }) => ({ method: 'get', url: `movie/${movie_id}` }),
         }),
         fetchMovieCredits: build.query<CreditsResponse, { movie_id: string }>({
             query: ({ movie_id }) => ({ url: `movie/${movie_id}/credits` }),
@@ -47,33 +32,30 @@ export const movieCardApi = createApi({
         searchMovies: build.query<PopularMoviesResponse, { query: string; page?: number }>({
             query: ({ query, page = 1 }) => ({
                 url: `search/movie`,
-                params: { query, page, include_adult: false, language: 'en-US' }
+                params: { query, page, include_adult: false, language: 'en-US' },
             }),
         }),
         fetchDiscoverMovies: build.query<PopularMoviesResponse, DiscoverParams>({
             query: (params) => ({
                 url: 'discover/movie',
-                params: {
-                    include_adult: false,
-                    language: 'en-US',
-                    ...params,
-                }
+                params: { include_adult: false, language: 'en-US', ...params },
             }),
         }),
         fetchGenres: build.query<{ genres: Genre[] }, void>({
             query: () => ({ url: 'genre/movie/list', params: { language: 'en-US' } }),
         }),
-
     }),
 })
+
 export const {
     useFetchCardQuery,
     useFetchMovieCreditsQuery,
     useFetchPopularMoviesQuery,
     useFetchSimilarMoviesQuery,
-    useSearchMoviesQuery,
     useFetchTopRatedMoviesQuery,
     useFetchUpcomingMoviesQuery,
     useFetchNowPlayingMoviesQuery,
-useFetchDiscoverMoviesQuery,
-useFetchGenresQuery} = movieCardApi
+    useSearchMoviesQuery,
+    useFetchDiscoverMoviesQuery,
+    useFetchGenresQuery,
+} = movieCardApi

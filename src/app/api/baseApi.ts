@@ -38,7 +38,14 @@ export const baseApi = createApi({
                         }
                         break
 
-
+                case 401:
+                case 429:
+                    if (isErrorWithProperty(result.error.data, 'status_message')) {
+                        notifyService.emit(result.error.data.status_message, 'error')}
+                    else {
+                        notifyService.emit(JSON.stringify(result.error.data))
+                    }
+                    break
                 //case 404:
                 //       if (isErrorWithError(result.error.data)) {
                 //         toast(result.error.data.error, { type: 'error', theme: 'colored' })

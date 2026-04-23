@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {notifyService} from "@/common/util/notifications/notifyService.ts";
+import {isErrorWithProperty} from "@/common/util";
+
 
 
 export const baseApi = createApi({
@@ -17,10 +19,36 @@ export const baseApi = createApi({
         })(args, api, extraOptions)
 
         if (result.error) {
+            // const { status } = result.error
+            console.log('404 data:', result.error.data)
             switch (result.error.status) {
-                case 404:
-                    notifyService.emit((result.error.data as { error: string }).error, { type: 'error', theme: 'colored' })
-                    break
+                    case 404:
+                        //  'status_message' этот ключ ищется в объекте и он же становится доступен после if
+                        if(isErrorWithProperty(result.error.data, 'status_message')) {
+                            notifyService.emit(result.error.data.status_message, 'error')}
+                        else {
+                            notifyService.emit(JSON.stringify(result.error.data))
+                        }
+                        break
+                            // if (isErrorWithProperty(error.data, 'error')) {
+                            //     errorToast(error.data.error)
+                            // } else {
+                            //     errorToast(JSON.stringify(error.data))
+                            // }
+                            // break
+
+                            // notifyService.emit(
+                        //     `Not found: ${typeof args === 'object' && 'url' in args ? args.url : 'unknown endpoint'}`,
+                        //     'warning'
+                        // )
+                        // break
+                //case 404:
+                //       if (isErrorWithError(result.error.data)) {
+                //         toast(result.error.data.error, { type: 'error', theme: 'colored' })
+                //       } else {
+                //         toast(JSON.stringify(result.error.data), { type: 'error', theme: 'colored' })
+                //       }
+                //       break
 
                 // case 429:
                 //     // ✅ 1. Type Assertions

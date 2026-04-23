@@ -1,0 +1,1 @@
+export {isErrorWithProperty} from './isErrorWithProperty.ts'

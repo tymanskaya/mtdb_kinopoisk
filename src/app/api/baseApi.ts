@@ -22,7 +22,14 @@ export const baseApi = createApi({
             // const { status } = result.error
             console.log('404 data:', result.error.data)
             switch (result.error.status) {
-                    case 404:
+
+                case 'FETCH_ERROR':
+                case 'PARSING_ERROR':
+                case 'CUSTOM_ERROR':
+                case 'TIMEOUT_ERROR':
+                    notifyService.emit(result.error.error, 'error')
+                    break
+                case 404:
                         //  'status_message' этот ключ ищется в объекте и он же становится доступен после if
                         if(isErrorWithProperty(result.error.data, 'status_message')) {
                             notifyService.emit(result.error.data.status_message, 'error')}
@@ -30,18 +37,8 @@ export const baseApi = createApi({
                             notifyService.emit(JSON.stringify(result.error.data))
                         }
                         break
-                            // if (isErrorWithProperty(error.data, 'error')) {
-                            //     errorToast(error.data.error)
-                            // } else {
-                            //     errorToast(JSON.stringify(error.data))
-                            // }
-                            // break
 
-                            // notifyService.emit(
-                        //     `Not found: ${typeof args === 'object' && 'url' in args ? args.url : 'unknown endpoint'}`,
-                        //     'warning'
-                        // )
-                        // break
+
                 //case 404:
                 //       if (isErrorWithError(result.error.data)) {
                 //         toast(result.error.data.error, { type: 'error', theme: 'colored' })

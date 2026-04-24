@@ -6,16 +6,26 @@ import type {
 } from "@/features/movieCard/api/movieCardApi.types.ts";
 import {baseApi} from "@/app/api/baseApi.ts";
 
+import {
+    CreditsResponseSchema,
+    MovieDetailsSchema,
+    MovieShortSchema
+} from "@/features/movieCard/model/movieCardApi.schemas.ts";
+import {withZodTransform} from "@/common/util";
+
 export const movieCardApi = baseApi.injectEndpoints({
     endpoints: build => ({
         fetchCard: build.query<MovieDetails, { movie_id: string }>({
             query: ({ movie_id }) => ({ method: 'get', url: `movie/${movie_id}` }),
+            transformResponse: withZodTransform(MovieDetailsSchema, 'fetchCard'),
         }),
         fetchMovieCredits: build.query<CreditsResponse, { movie_id: string }>({
             query: ({ movie_id }) => ({ url: `movie/${movie_id}/credits` }),
+            transformResponse: withZodTransform(CreditsResponseSchema, 'fetchMovieCredits'),
         }),
         fetchPopularMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/popular`, params: { page } }),
+            // transformResponse: withZodTransform(MovieShortSchema, 'fetchPopularMovies'),
         }),
         fetchSimilarMovies: build.query<PopularMoviesResponse, { movie_id: string }>({
             query: ({ movie_id }) => ({ url: `movie/${movie_id}/similar` }),

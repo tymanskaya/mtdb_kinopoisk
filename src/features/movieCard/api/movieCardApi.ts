@@ -7,9 +7,8 @@ import type {
 import {baseApi} from "@/app/api/baseApi.ts";
 
 import {
-    CreditsResponseSchema,
-    MovieDetailsSchema,
-    MovieShortSchema
+    CreditsResponseSchema, GenresResponseSchema,
+    MovieDetailsSchema, PopularMoviesResponseSchema
 } from "@/features/movieCard/model/movieCardApi.schemas.ts";
 import {withZodTransform} from "@/common/util";
 
@@ -25,35 +24,43 @@ export const movieCardApi = baseApi.injectEndpoints({
         }),
         fetchPopularMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/popular`, params: { page } }),
-            // transformResponse: withZodTransform(MovieShortSchema, 'fetchPopularMovies'),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchPopularMovies'),
         }),
         fetchSimilarMovies: build.query<PopularMoviesResponse, { movie_id: string }>({
             query: ({ movie_id }) => ({ url: `movie/${movie_id}/similar` }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchSimilarMovies'),
         }),
         fetchTopRatedMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/top_rated`, params: { page } }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchTopRatedMovies'),
         }),
         fetchUpcomingMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/upcoming`, params: { page } }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchUpcomingMovies'),
         }),
         fetchNowPlayingMovies: build.query<PopularMoviesResponse, { page?: number }>({
             query: ({ page = 1 }) => ({ url: `movie/now_playing`, params: { page } }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchNowPlayingMovies'),
         }),
         searchMovies: build.query<PopularMoviesResponse, { query: string; page?: number }>({
             query: ({ query, page = 1 }) => ({
                 url: `search/movie`,
                 params: { query, page, include_adult: false, language: 'en-US' },
             }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'searchMovies'),
         }),
         fetchDiscoverMovies: build.query<PopularMoviesResponse, DiscoverParams>({
             query: (params) => ({
                 url: 'discover/movie',
                 params: { include_adult: false, language: 'en-US', ...params },
             }),
+            transformResponse: withZodTransform(PopularMoviesResponseSchema, 'fetchDiscoverMovies'),
         }),
         fetchGenres: build.query<{ genres: Genre[] }, void>({
             query: () => ({ url: 'genre/movie/list', params: { language: 'en-US' } }),
+            transformResponse: withZodTransform(GenresResponseSchema, 'fetchGenres'),
         }),
+
     }),
 })
 

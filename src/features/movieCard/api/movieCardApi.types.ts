@@ -92,7 +92,7 @@ export type Movie = {
 
 export type PopularMoviesResponse = {
     page: number
-    results: Movie[]
+    results: MovieShort[]  // ← вместо Movie[]
     total_pages: number
     total_results: number
 }

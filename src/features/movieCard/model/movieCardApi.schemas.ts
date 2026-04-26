@@ -91,3 +91,10 @@ export const CreditsResponseSchema = z.object({
 export const GenresResponseSchema = z.object({
     genres: z.array(GenreSchema),
 })
+
+export const PopularMoviesResponseSchema = z.object({
+    page: z.number(),
+    results: z.array(MovieShortSchema),
+    total_pages: z.number(),
+    total_results: z.number(),
+})

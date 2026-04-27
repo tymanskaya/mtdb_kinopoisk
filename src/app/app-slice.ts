@@ -1,5 +1,5 @@
 
-import { createSlice} from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
 
 
 const savedTheme = localStorage.getItem('themeMode') as ThemeMode | null
@@ -19,6 +19,7 @@ export const appSlice = createSlice({
         }),
 
     }),
+
 })
 
 export const { selectThemeMode} = appSlice.selectors

@@ -8,13 +8,18 @@ import {
 import {Container} from "@mui/material";
 import {MovieSection} from "@/features/movieCard/ui/MovieSection/MovieSection.tsx";
 import {WelcomeSection} from "@/features/movieCard/ui/WelcomeSection/WelcomeSection.tsx";
+import {MainPageSkeleton} from "@/app/ui/MainPageSkeleton.tsx";
 
 
 export const MainPage = () => {
-    const { data: popular } = useFetchPopularMoviesQuery({ page: 1 })
+    const { data: popular, isLoading } = useFetchPopularMoviesQuery({ page: 1 })
     const { data: topRated } = useFetchTopRatedMoviesQuery({ page: 1 })
     const { data: upcoming } = useFetchUpcomingMoviesQuery({ page: 1 })
     const { data: nowPlaying } = useFetchNowPlayingMoviesQuery({ page: 1 })
+
+    if(isLoading){
+        return <MainPageSkeleton />
+    }
 
     return (
         <>

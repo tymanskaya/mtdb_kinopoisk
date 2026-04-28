@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router'
 import { useState } from 'react'
 import {
     Container, Typography, Grid, Box, Button,
-    Pagination, CircularProgress
+    Pagination
 } from '@mui/material'
 import {
     useFetchPopularMoviesQuery,
@@ -11,6 +11,7 @@ import {
     useFetchNowPlayingMoviesQuery,
 } from '@/features/movieCard/api/movieCardApi'
 import { MovieCardItem } from '@/common/componets'
+import {MovieCardItemSkeleton} from "@/common/componets/MovieCardItem";
 
 type CategoryKey = 'popular' | 'top-rated' | 'upcoming' | 'now-playing'
 
@@ -69,16 +70,20 @@ export const CategoryPage = () => {
             </Typography>
 
             {(isLoading || isFetching) && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-                    <CircularProgress />
-                </Box>
+                <Grid container spacing={2}>
+                    {Array.from({ length: 20 }).map((_, i) => (
+                        <Grid key={i} size={{ xs: 6, sm: 4, md: 2.4 }}>
+                            <MovieCardItemSkeleton />
+                        </Grid>
+                    ))}
+                </Grid>
             )}
 
-            {!isLoading && (
+            {data && (
                 <Box sx={{ opacity: isFetching ? 0.4 : 1, transition: 'opacity 0.2s' }}>
                     <Grid container spacing={2}>
-                        {data?.results.map(movie => (
-                            <Grid size={{ xs: 6, sm: 4, md: 2 }} key={movie.id}>
+                        {data.results.map(movie => (
+                            <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
                                 <MovieCardItem movie={movie} />
                             </Grid>
                         ))}

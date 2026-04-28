@@ -1,0 +1,1 @@
+export {MovieCardItemSkeleton} from './MovieCardItemSkeleton'

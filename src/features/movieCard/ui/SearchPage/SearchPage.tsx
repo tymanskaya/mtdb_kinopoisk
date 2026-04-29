@@ -3,6 +3,7 @@ import { useSearchMoviesQuery } from "@/features/movieCard/api/movieCardApi.ts"
 import { Container, Grid, Typography } from "@mui/material"
 import { MovieCardItem, SearchBar } from "@/common/componets"
 import { SearchOutlined } from "@mui/icons-material"
+import {SearchPageSkeleton} from "@/features/movieCard/ui/SearchPage/SearchPageSkeleton.tsx";
 
 export const SearchPage = () => {
     const [searchParams] = useSearchParams()
@@ -11,6 +12,12 @@ export const SearchPage = () => {
     const { data, isLoading, isError } = useSearchMoviesQuery(
         { query },
         { skip: !query }
+    )
+
+    if (isLoading) return (
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            <SearchPageSkeleton />
+        </Container>
     )
 
     return (

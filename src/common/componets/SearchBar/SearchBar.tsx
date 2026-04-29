@@ -17,6 +17,7 @@ export const SearchBar = ({ defaultValue = "" }: Props) => {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') handleSearch()
     }
+
     return (
         <div className={styles.searchBar}>
             <input

@@ -69,6 +69,7 @@ export const CategoryPage = () => {
                 {activeLabel} Movies
             </Typography>
 
+            {/* Скелетон — первая загрузка И смена страницы/категории */}
             {(isLoading || isFetching) && (
                 <Grid container spacing={2}>
                     {Array.from({ length: 20 }).map((_, i) => (
@@ -79,16 +80,15 @@ export const CategoryPage = () => {
                 </Grid>
             )}
 
-            {data && (
-                <Box sx={{ opacity: isFetching ? 0.4 : 1, transition: 'opacity 0.2s' }}>
-                    <Grid container spacing={2}>
-                        {data.results.map(movie => (
-                            <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
-                                <MovieCardItem movie={movie} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Box>
+            {/* Карточки — только когда данные есть И не грузится */}
+            {data && !isFetching && (
+                <Grid container spacing={2}>
+                    {data.results.map(movie => (
+                        <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
+                            <MovieCardItem movie={movie} />
+                        </Grid>
+                    ))}
+                </Grid>
             )}
 
             {data && data.total_pages > 1 && (

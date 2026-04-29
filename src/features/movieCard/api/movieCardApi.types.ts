@@ -83,7 +83,7 @@ export type CreditsResponse = {
 export type Movie = {
     id: number
     title: string
-    poster_path: string
+    poster_path: string | null  // ← null уже должен быть
     overview: string
     vote_average: number
     release_date: string

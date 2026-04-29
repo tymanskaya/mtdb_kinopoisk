@@ -1,8 +1,9 @@
+
 import { useParams, useNavigate } from 'react-router'
 import { useState } from 'react'
 import {
     Container, Typography, Grid, Box, Button,
-    Pagination
+    Pagination, Skeleton
 } from '@mui/material'
 import {
     useFetchPopularMoviesQuery,
@@ -11,15 +12,15 @@ import {
     useFetchNowPlayingMoviesQuery,
 } from '@/features/movieCard/api/movieCardApi'
 import { MovieCardItem } from '@/common/componets'
-import {MovieCardItemSkeleton} from "@/common/componets/MovieCardItem";
+import { MovieCardItemSkeleton } from "@/common/componets/MovieCardItem";
 
 type CategoryKey = 'popular' | 'top-rated' | 'upcoming' | 'now-playing'
 
-const CATEGORIES: { key: CategoryKey; label: string }[] = [
-    { key: 'popular',     label: 'Popular' },
-    { key: 'top-rated',   label: 'Top Rated' },
-    { key: 'upcoming',    label: 'Upcoming' },
-    { key: 'now-playing', label: 'Now Playing' },
+const CATEGORIES: { key: CategoryKey; label: string; width: number }[] = [
+    { key: 'popular',     label: 'Popular',     width: 90 },
+    { key: 'top-rated',   label: 'Top Rated',   width: 110 },
+    { key: 'upcoming',    label: 'Upcoming',    width: 100 },
+    { key: 'now-playing', label: 'Now Playing', width: 120 },
 ]
 
 const TMDB_MAX_PAGES = 500
@@ -41,6 +42,7 @@ export const CategoryPage = () => {
     const activeCategory: CategoryKey =
         CATEGORIES.find(c => c.key === category)?.key ?? 'popular'
 
+    // isLoading — только первая загрузка, isFetching — любая смена страницы/категории
     const { data, isLoading, isFetching } = useCategoryData(activeCategory, page)
 
     const activeLabel = CATEGORIES.find(c => c.key === activeCategory)?.label ?? 'Popular'
@@ -52,25 +54,41 @@ export const CategoryPage = () => {
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
+            {/* Скелетоны для кнопок (показываем только при самой первой загрузке страницы) */}
             <Box sx={{ display: 'flex', gap: 1.5, mb: 4, flexWrap: 'wrap' }}>
-                {CATEGORIES.map(({ key, label }) => (
-                    <Button
-                        key={key}
-                        variant={activeCategory === key ? 'contained' : 'outlined'}
-                        onClick={() => handleCategoryChange(key)}
-                        sx={{ borderRadius: 8, textTransform: 'none', fontWeight: 600, px: 3 }}
-                    >
-                        {label}
-                    </Button>
-                ))}
+                {isLoading
+                    ? CATEGORIES.map((cat) => (
+                        <Skeleton
+                            key={cat.key}
+                            variant="rounded"
+                            width={cat.width}
+                            height={36.5}
+                            sx={{ borderRadius: 8 }}
+                        />
+                    ))
+                    : CATEGORIES.map(({ key, label }) => (
+                        <Button
+                            key={key}
+                            variant={activeCategory === key ? 'contained' : 'outlined'}
+                            onClick={() => handleCategoryChange(key)}
+                            sx={{ borderRadius: 8, textTransform: 'none', fontWeight: 600, px: 3 }}
+                        >
+                            {label}
+                        </Button>
+                    ))
+                }
             </Box>
 
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>
-                {activeLabel} Movies
-            </Typography>
+            {isFetching ? (
+                <Skeleton variant="text" width={220} height={40} sx={{ mb: 3 }} animation="wave" />
+            ) : (
+                <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>
+                    {activeLabel} Movies
+                </Typography>
+            )}
 
-            {/* Скелетон — первая загрузка И смена страницы/категории */}
-            {(isLoading || isFetching) && (
+            {/* Скелетоны карточек — показываем ВСЕГДА, когда идет запрос (isFetching) */}
+            {isFetching ? (
                 <Grid container spacing={2}>
                     {Array.from({ length: 20 }).map((_, i) => (
                         <Grid key={i} size={{ xs: 6, sm: 4, md: 2.4 }}>
@@ -78,17 +96,17 @@ export const CategoryPage = () => {
                         </Grid>
                     ))}
                 </Grid>
-            )}
-
-            {/* Карточки — только когда данные есть И не грузится */}
-            {data && !isFetching && (
-                <Grid container spacing={2}>
-                    {data.results.map(movie => (
-                        <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
-                            <MovieCardItem movie={movie} />
-                        </Grid>
-                    ))}
-                </Grid>
+            ) : (
+                /* Контент — показываем только когда загрузка завершена */
+                data && (
+                    <Grid container spacing={2}>
+                        {data.results.map(movie => (
+                            <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={movie.id}>
+                                <MovieCardItem movie={movie} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                )
             )}
 
             {data && data.total_pages > 1 && (
@@ -102,6 +120,7 @@ export const CategoryPage = () => {
                         }}
                         color="primary"
                         size="large"
+                        disabled={isFetching} // Отключаем пагинацию во время загрузки
                     />
                 </Box>
             )}

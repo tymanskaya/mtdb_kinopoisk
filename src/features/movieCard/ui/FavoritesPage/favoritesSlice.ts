@@ -6,7 +6,7 @@ import {STORAGE_KEY} from "@/common/constants";
 export type FavoriteMovie = {
     id: number
     title: string
-    posterUrl: string
+    posterUrl: string|null
     voteAverage: number
 }
 

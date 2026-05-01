@@ -1,15 +1,23 @@
 import type {MovieDetails} from "@/features/movieCard/api";
 import { Box, Chip, Typography } from '@mui/material'
 import styles from'./movieInfo.module.css'
+import {MovieInfoSkeleton} from "@/features/movieCard/ui/MovieInfo/MovieInfoSkeleton.tsx";
+
+
 
 
 type Props = {
     movie: MovieDetails
+    isLoading: boolean
 }
 
-export const MovieInfo=({ movie }: Props)=>{
+export const MovieInfo=({ movie, isLoading }: Props)=>{
     const year = movie.release_date?.split('-')[0]
     const runtime = `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`
+
+
+    if (isLoading) return <MovieInfoSkeleton />;
+    if (!movie) return <div>Movie not found</div>;
 
     return (
         <Box className={styles.container}>

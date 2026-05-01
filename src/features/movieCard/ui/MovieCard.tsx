@@ -29,8 +29,7 @@ export const MovieCard = () => {
             >
                 Назад
             </Button>
-
-            <MovieInfo movie={data} />
+            <MovieInfo movie={data} isLoading={isLoading} />
             <MovieCast movieId={data.id.toString()} />
             <SimilarMovies />
         </Container>

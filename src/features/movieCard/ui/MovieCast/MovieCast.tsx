@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material'
 import styles from './MovieCast.module.css'
 import { useMovieCredits } from "@/common/hooks"
+import {MovieCastSkeleton} from "@/features/movieCard/ui/MovieCast/MovieCastSkeleton.tsx";
 
 type Props = { movieId: string }
 
 export const MovieCast = ({ movieId }: Props) => {
     const { cast, isLoading } = useMovieCredits(movieId)
 
-    if (isLoading) return null
-
+    if (isLoading) return <MovieCastSkeleton />
     return (
         <Box className={styles.container}>
                 <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>

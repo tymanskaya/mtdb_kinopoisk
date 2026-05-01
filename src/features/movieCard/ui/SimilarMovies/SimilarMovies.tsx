@@ -1,7 +1,8 @@
 import { useParams} from 'react-router-dom';
 import { Grid, Typography, Box } from '@mui/material';
 import { useFetchSimilarMoviesQuery } from '@/features/movieCard/api/movieCardApi';
-import {MovieCardItem} from "@/common/componets"; // проверьте путь
+import {MovieCardItem} from "@/common/componets";
+import {MovieSectionSkeleton} from "@/features/movieCard/ui/CategoryPage/MovieSectionSkeleton.tsx"; // проверьте путь
 
 
 export const SimilarMovies = () => {
@@ -10,7 +11,7 @@ export const SimilarMovies = () => {
     // Вызываем созданный нами ранее эндпоинт
     const { data, isLoading, isError } = useFetchSimilarMoviesQuery({ movie_id: id || '' });
 
-    if (isLoading) return <Typography sx={{ mt: 2 }}>Загрузка похожих фильмов...</Typography>;
+    if (isLoading) return <MovieSectionSkeleton/>
     if (isError || !data?.results.length) return null;
 
     return (

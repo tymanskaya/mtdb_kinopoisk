@@ -1,5 +1,21 @@
 import { createTheme } from '@mui/material/styles'
 
+const disableScrollLock = {
+    components: {
+        MuiPopover: { defaultProps: { disableScrollLock: true } },
+        MuiMenu:    { defaultProps: { disableScrollLock: true } },
+        MuiModal:   { defaultProps: { disableScrollLock: true } },
+        MuiSelect: {
+            defaultProps: {
+                MenuProps: {
+                    disablePortal: true,      // ← рендер внутри DOM, не в body
+                    disableScrollLock: true,
+                }
+            }
+        },
+    }
+}
+
 export const lightTheme = createTheme({
     palette: {
         mode: 'light',
@@ -10,6 +26,7 @@ export const lightTheme = createTheme({
             paper: '#f5f5f5',
         },
     },
+    ...disableScrollLock,
 })
 
 export const darkTheme = createTheme({
@@ -22,5 +39,6 @@ export const darkTheme = createTheme({
             paper: '#1a3a5c',
         },
     },
+    ...disableScrollLock,
 })
 

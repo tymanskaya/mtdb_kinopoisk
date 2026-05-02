@@ -71,9 +71,15 @@ export const Sidebar=({setPage, onFiltersChange}:Props)=>{
 
             <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>Sort by</Typography>
             <Select
-                fullWidth size="small" value={sortBy}
+                fullWidth
+                size="small"
+                value={sortBy}
                 onChange={e => { setSortBy(e.target.value); setPage(1) }}
                 sx={{ mb: 3 }}
+                // Добавьте вот это:
+                MenuProps={{
+                    disableScrollLock: true,
+                }}
             >
                 {SORT_OPTIONS.map(opt => (
                     <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>

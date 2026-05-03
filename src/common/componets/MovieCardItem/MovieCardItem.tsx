@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router"
 import type { Movie } from "@/features/movieCard/api"
-import { Path } from "@/common/routing"
 import styles from './MovieCardItem.module.css'
 import { Favorite, FavoriteBorder } from "@mui/icons-material"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { toggleFavorite, selectIsFavorite } from "@/features/movieCard/ui/FavoritesPage/favoritesSlice"
+import {Path} from "@/common/constants";
 
 type Props = { movie: Movie }
 

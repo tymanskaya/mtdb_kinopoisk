@@ -1,13 +1,13 @@
 import styles from './Header.module.css'
 import logo from '../../../assets/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg'
 
-import { Path } from "@/common/routing"
 import { changeThemeModeAC, selectThemeMode } from "@/app/app-slice.ts"
 import { Box, Container, Switch as MuiSwitch } from '@mui/material'
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import { NavLink } from 'react-router'
+import {Path} from "@/common/constants";
 
 const navItems: { to: string; label: string }[] = [
     { to: Path.Main, label: 'Main' },

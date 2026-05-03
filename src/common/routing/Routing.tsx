@@ -6,17 +6,9 @@ import {FavoritesPage} from "@/features/movieCard/ui/FavoritesPage/FavoritesPage
 import {FilteredPage} from "@/features/movieCard/ui/FilteredPage";
 import {CategoryPage} from "@/features/movieCard/ui/CategoryPage";
 import {NotFoundPage} from "@/common/componets";
+import {Path} from "@/common/constants";
 
-export const Path = {
-    Main: '/',
-    Movie: '/movie/:id',
-    Search: '/search',
-    Favorites: '/favorites',
-    Filtered: '/filtered',
-    Category: '/category/:category',
-    // OAuthRedirect: '/oauth/callback',
-    // NotFound: '*',
-} as const
+
 
 export const Routing = () => (
     <Routes>
